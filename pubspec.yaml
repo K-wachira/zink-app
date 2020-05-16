@@ -30,6 +30,7 @@ dependencies:
   image_picker: any
   firebase_database: ^3.1.5
   firebase_dart: ^0.7.15+4
+  font_awesome_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,19 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: Billabong
+      fonts:
+        - asset: assets/fonts/Billabong.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    - family: Aveny
+      fonts:
+        - asset: assets/fonts/AvenyTRegular.otf
+          style: normal
+        - asset: assets/fonts/AvenyTMedium.otf
+          style: italic
+
   # fonts:
   #   - family: Schyler
   #     fonts:
