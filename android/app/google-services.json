@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "712636918230",
+    "firebase_url": "https://zink-project.firebaseio.com",
+    "project_id": "zink-project",
+    "storage_bucket": "zink-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712636918230:android:5f8fea4120499736491c77",
+        "android_client_info": {
+          "package_name": "com.kelvin.zink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712636918230-97b4huj96c39bkqlu9i6pnc0g40qdp7r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA344TuA6un_afYObbcpwxygIUNks-deBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712636918230-97b4huj96c39bkqlu9i6pnc0g40qdp7r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
