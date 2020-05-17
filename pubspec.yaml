@@ -32,6 +32,8 @@ dependencies:
   firebase_dart: ^0.7.15+4
   font_awesome_flutter:
   transparent_image: ^1.0.0
+  toast: ^0.1.4
+
 
 dev_dependencies:
   flutter_test:

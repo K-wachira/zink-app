@@ -52,6 +52,7 @@ class imageloader extends StatelessWidget {
         Flexible(
             fit: FlexFit.loose,
             child: FadeInImage.assetNetwork(
+              
               placeholder: 'assets/images/loading.gif',
               image: document['ImageURL'],
               fit: BoxFit.cover,

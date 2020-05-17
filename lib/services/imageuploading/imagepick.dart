@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:toast/toast.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/src/widgets/basic.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,7 +17,6 @@ class _ImageCapturesState extends State<ImageCaptures> {
 //  Select an image via gallery or camera
   Future<void> pickImage(ImageSource source) async {
     File selected = await ImagePicker.pickImage(source: source);
-
     setState(() {
       _ImageFile = selected;
     });
@@ -28,7 +28,6 @@ class _ImageCapturesState extends State<ImageCaptures> {
       _ImageFile = null;
     });
   }
-
 
   Future<void> _cropImage() async {
     File croped = await ImageCropper.cropImage(
@@ -43,24 +42,23 @@ class _ImageCapturesState extends State<ImageCaptures> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-      child: Row(
-             children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.photo_camera),
-                onPressed: () => pickImage(ImageSource.camera),
-              ),
-              IconButton(
-                icon: Icon(Icons.photo_library),
-                onPressed: () => pickImage(ImageSource.gallery),
-              )
-            ],
-          ),
-    ),
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_camera),
+              onPressed: () => pickImage(ImageSource.camera),
+            ),
+            IconButton(
+              icon: Icon(Icons.photo_library),
+              onPressed: () => pickImage(ImageSource.gallery),
+            )
+          ],
+        ),
+      ),
       body: ListView(
         children: <Widget>[
-          if(_ImageFile != null) ...[
+          if (_ImageFile != null) ...[
             Image.file(_ImageFile),
-
             Row(
               children: <Widget>[
                 FlatButton(
@@ -73,22 +71,21 @@ class _ImageCapturesState extends State<ImageCaptures> {
                 ),
               ],
             ),
-
-            Uploader(file: _ImageFile,)
-
+            Uploader(
+              file: _ImageFile,
+            )
           ],
         ],
       ),
     );
-
-
   }
 }
 
 class Uploader extends StatefulWidget {
+  final FirebaseStorage storage;
   final File file;
 
-  Uploader({Key key, this.file}) : super(key: key);
+  Uploader({Key key, this.file, this.storage}) : super(key: key);
 
   _UploaderState createState() => _UploaderState();
 }
@@ -96,22 +93,37 @@ class Uploader extends StatefulWidget {
 class _UploaderState extends State<Uploader> {
   String ImgUrl;
   final FirebaseStorage _storage =
-  FirebaseStorage(storageBucket: "gs://zink-project.appspot.com/");
+      FirebaseStorage(storageBucket: "gs://zink-project.appspot.com/");
 
-
-
-
+  //upload image to firestore
   StorageUploadTask _uploadTask;
+  String ImageURL;
+
+
 
   void _startUpload() async {
-    String filePath = 'images/${DateTime.now()}.png';
+    var filename = DateTime.now();
+    String filePath = 'images/$filename.png';
+
+
+
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
+
     });
+
+    final String url = await(await _uploadTask.onComplete).ref.getDownloadURL();
+    Firestore.instance.collection('Posts').document().setData({
+      'ImageURL': url,
+      'downvotes': 0,
+      'upvotes': 0,
+    });
+
+
+    void showToast(String msg, {int duration, int gravity}) {
+      Toast.show(msg, context, duration: duration, gravity: gravity);
+    }
   }
-
-
-  //two function
   @override
   Widget build(BuildContext context) {
     if (_uploadTask != null) {
@@ -124,8 +136,7 @@ class _UploaderState extends State<Uploader> {
                 ? event.bytesTransferred / event.totalByteCount
                 : 0;
             print('${(ProgressPercent * 100).toStringAsFixed(2)}%');
-            return Column(
-            );
+            return Column();
           });
     } else {
       return Row(
@@ -140,3 +151,7 @@ class _UploaderState extends State<Uploader> {
     }
   }
 }
+
+
+
+
