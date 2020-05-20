@@ -52,7 +52,7 @@ class imageloader extends StatelessWidget {
         Flexible(
             fit: FlexFit.loose,
             child: FadeInImage.assetNetwork(
-              
+
               placeholder: 'assets/images/loading.gif',
               image: document['ImageURL'],
               fit: BoxFit.cover,
@@ -169,17 +169,38 @@ class imageloader extends StatelessWidget {
       ],
     );
   }
+  Widget  imageshow(imageurl){
+     showDialog(
+      context: null,
+       builder: (BuildContext context){
+        return AlertDialog(
+          actions: <Widget>[
+             Flexible(
+                fit: FlexFit.loose,
+                child: FadeInImage.assetNetwork(
 
+                  placeholder: 'assets/images/loading.gif',
+                  image:imageurl,
+                  fit: BoxFit.cover,
+                )),
+             ],
+        );
+       }
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Material(
       child: StreamBuilder(
           stream: dbconn.collection("Posts").snapshots(),
+
           builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text("loading....");
+            if (!snapshot.hasData) return CircularProgressIndicator();
             print("Snapshot data : ${snapshot.data.toString()}");
             return ListView.builder(
+
               itemCount: snapshot.data.documents.length,
+
               itemBuilder: (context, index) =>
                   _buildListItem(context, snapshot.data.documents[index]),
             );
@@ -188,23 +209,4 @@ class imageloader extends StatelessWidget {
   }
 }
 
-//
-//children: <Widget>[
-//ListTile(
-//title: Row(
-//children: <Widget>[
-//Expanded(
-//child: Text(
-//document['ImageURL'].toString(),
-//),
-//),
-//Container(
-//child: Text(
-//document["Likes"].toString(),
-//style: TextStyle(color: Colors.red),
-//),
-//)
-//],
-//),
-//),
-//],
+

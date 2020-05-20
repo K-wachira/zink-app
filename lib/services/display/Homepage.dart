@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:zink/services/imageuploading/imagepick.dart';
-import 'package:zink/services/imageuploading/imagepick.dart';
-import 'package:zink/services/imageuploading/imagepick.dart';
-
-import 'displayimages.dart';
+import 'package:zink/services/display/SideBarNavigationPanel.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -28,7 +24,7 @@ class _HomepageState extends State<Homepage> {
           ],
         ),
       ),
-      body: imageloader(),
+      body: MainLayOut(),
     );
   }
 }
