@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zink/services/JokesAPI/notYetImplemented.dart';
 import 'package:zink/services/imageuploading/imagepick.dart';
 import 'package:zink/services/display/displayimages.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
@@ -10,7 +11,7 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  int _currentIndex = 1;
+  int _currentIndex = 0;
 
   PageController _pageController;
 
@@ -36,14 +37,10 @@ class _HomepageState extends State<Homepage> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            ImageCaptures(),
             imageloader(),
-            Container(
-              color: Colors.red,
-            ),
-            Container(
-              color: Colors.green,
-            ),
+            ImageCaptures(),
+            notYetImplimented(),
+            notYetImplimented(),
           ],
         ),
       ),
@@ -54,12 +51,12 @@ class _HomepageState extends State<Homepage> {
           _pageController.jumpToPage(index);
         },
         items: <BottomNavyBarItem>[
-          BottomNavyBarItem(title: Text('Upload Photos'), icon: Icon(Icons.add_a_photo)),
           BottomNavyBarItem(title: Text('Home Feed'), icon: Icon(Icons.home)),
           BottomNavyBarItem(
-              title: Text('Messages'), icon: Icon(Icons.chat_bubble)),
+              title: Text('Upload Photos'), icon: Icon(Icons.add_a_photo)),
           BottomNavyBarItem(
-              title: Text('Profile'), icon: Icon(Icons.person)),
+              title: Text('Messages'), icon: Icon(Icons.chat_bubble)),
+          BottomNavyBarItem(title: Text('Profile'), icon: Icon(Icons.person)),
         ],
       ),
     );
