@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -26,7 +26,6 @@ dependencies:
   firebase_core: any
   cloud_firestore: any
   firebase_storage: ^3.1.5
-  image_cropper: ^1.2.2
   image_picker: any
   firebase_database: ^3.1.5
   firebase_dart: ^0.7.15+4
@@ -34,6 +33,9 @@ dependencies:
   transparent_image: ^1.0.0
   toast: ^0.1.4
   rxdart: ^0.24.1
+  image_cropper: ^1.2.2
+  bottom_navy_bar: ^5.4.0
+
 
 dev_dependencies:
   flutter_test:
