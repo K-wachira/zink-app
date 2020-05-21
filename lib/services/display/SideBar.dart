@@ -9,9 +9,7 @@ class SideBar extends StatefulWidget {
   _SideBarState createState() => _SideBarState();
 }
 
-class _SideBarState extends State<SideBar>
-    with SingleTickerProviderStateMixin<SideBar> {
-  AnimationController _animationController;
+class _SideBarState extends State<SideBar>    with SingleTickerProviderStateMixin<SideBar> {  AnimationController _animationController;
   StreamController<bool> isSidebarOpenedStreamController;
   Stream<bool> isSideBarOpenedStream;
   StreamSink<bool> isSidebarOpenedSink;
@@ -65,7 +63,7 @@ class _SideBarState extends State<SideBar>
 //            first value is distance fro9m left which original distance second is the width of the bar clue
             left: isSidebarOpenedAsync.data
                 ? screenwitdh - 150
-                : screenwitdh - 45,
+                : screenwitdh - 35,
             right: isSidebarOpenedAsync.data ? -screenwitdh : -screenwitdh,
             child: Row(
               children: <Widget>[

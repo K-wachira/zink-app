@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:zink/services/JokesAPI/notYetImplemented.dart';
-import 'package:zink/services/imageuploading/imagepick.dart';
 import 'package:zink/services/display/displayimages.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:zink/services/imageuploading/imagepicker.dart';
+import 'package:zink/services/display/SideBar.dart';
+
 
 class Homepage extends StatefulWidget {
   @override

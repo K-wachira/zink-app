@@ -1,10 +1,79 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/material.dart';
 
 class imageloader extends StatelessWidget {
   var dbconn = Firestore.instance;
+
+  Widget _dialogbuilder(BuildContext context, DocumentSnapshot document) {
+    return SimpleDialog(
+      children: <Widget>[
+        CachedNetworkImage(
+          fit: BoxFit.fill,
+          placeholder: (context, url) =>
+              Image.asset('assets/images/loading.gif'),
+          placeholderFadeInDuration: Duration(milliseconds: 300),
+          imageUrl: document['ImageURL'],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  FlatButton.icon(
+                      icon: Icon(
+                        Icons.arrow_upward,
+                        color: Colors.black,
+                      ),
+                      label: Text(
+                        document["upvotes"].toString(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        document.reference
+                            .updateData({'upvotes': document['upvotes'] + 1});
+                      }),
+                  FlatButton.icon(
+                      icon: Icon(
+                        Icons.arrow_downward,
+                        color: Colors.black,
+                      ),
+                      label: Text(
+                        document["downvotes"].toString(),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      onPressed: () {
+                        document.reference.updateData(
+                            {'downvotes': document['downvotes'] + 1});
+                      }),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  new SizedBox(
+                    width: 16.0,
+                  ),
+                  new Icon(FontAwesomeIcons.share),
+                ],
+              ),
+              new Icon(FontAwesomeIcons.bookmark)
+            ],
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return Column(
@@ -37,7 +106,7 @@ class imageloader extends StatelessWidget {
                   new Text(
                     "#memehastag",
                     style: TextStyle(fontWeight: FontWeight.bold),
-                  )
+                  ),
                 ],
               ),
               new IconButton(
@@ -49,14 +118,20 @@ class imageloader extends StatelessWidget {
         ),
 
 //         Main picture
-        Flexible(
+        GestureDetector(
+          onLongPress: () => showDialog(
+              context: context,
+              builder: (context) => _dialogbuilder(context, document)),
+          child: Flexible(
             fit: FlexFit.loose,
-            child: FadeInImage.assetNetwork(
-
-              placeholder: 'assets/images/loading.gif',
-              image: document['ImageURL'],
-              fit: BoxFit.cover,
-            )),
+            child: CachedNetworkImage(
+              placeholder: (context, url) =>
+                  Image.asset('assets/images/loading.gif'),
+              placeholderFadeInDuration: Duration(milliseconds: 300),
+              imageUrl: document['ImageURL'],
+            ),
+          ),
+        ),
 
 //          handles like an save comment and share
         Padding(
@@ -169,38 +244,35 @@ class imageloader extends StatelessWidget {
       ],
     );
   }
-  Widget  imageshow(imageurl){
-     showDialog(
-      context: null,
-       builder: (BuildContext context){
-        return AlertDialog(
-          actions: <Widget>[
-             Flexible(
-                fit: FlexFit.loose,
-                child: FadeInImage.assetNetwork(
 
-                  placeholder: 'assets/images/loading.gif',
-                  image:imageurl,
-                  fit: BoxFit.cover,
-                )),
-             ],
-        );
-       }
-    );
+  Widget imageshow(imageurl) {
+    showDialog(
+        context: null,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            actions: <Widget>[
+              Flexible(
+                  fit: FlexFit.loose,
+                  child: FadeInImage.assetNetwork(
+                    placeholder: 'assets/images/loading.gif',
+                    image: imageurl,
+                    fit: BoxFit.cover,
+                  )),
+            ],
+          );
+        });
   }
+
   @override
   Widget build(BuildContext context) {
     return Material(
       child: StreamBuilder(
           stream: dbconn.collection("Posts").snapshots(),
-
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             print("Snapshot data : ${snapshot.data.toString()}");
             return ListView.builder(
-
               itemCount: snapshot.data.documents.length,
-
               itemBuilder: (context, index) =>
                   _buildListItem(context, snapshot.data.documents[index]),
             );
@@ -208,5 +280,3 @@ class imageloader extends StatelessWidget {
     );
   }
 }
-
-

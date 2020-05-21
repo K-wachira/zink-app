@@ -35,6 +35,9 @@ dependencies:
   rxdart: ^0.24.1
   image_cropper: ^1.2.2
   bottom_navy_bar: ^5.4.0
+  cached_network_image: ^2.2.0+1
+
+
 
 
 dev_dependencies:
