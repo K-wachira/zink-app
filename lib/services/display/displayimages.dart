@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter/material.dart';
 
 class imageloader extends StatelessWidget {
@@ -10,6 +8,7 @@ class imageloader extends StatelessWidget {
 
   Widget _dialogbuilder(BuildContext context, DocumentSnapshot document) {
     return SimpleDialog(
+      contentPadding: EdgeInsets.zero,
       children: <Widget>[
         CachedNetworkImage(
           fit: BoxFit.fill,

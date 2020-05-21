@@ -12,7 +12,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData(
-        primarySwatch: Colors.deepPurple
+        primarySwatch: Colors.deepPurple,
+        buttonColor: Colors.deepPurple,
+        buttonTheme: const ButtonThemeData(
+          textTheme: ButtonTextTheme.primary
+        )
       ),
       title: 'Zink',
       theme: ThemeData(
