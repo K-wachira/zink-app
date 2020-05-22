@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:zink/services/display/displayimages.dart';
+import 'package:zink/services/mainScreens//displayimages.dart';
 
-import 'package:zink/services/display/SideBar.dart';
+import 'package:zink/services/mainScreens//SideBar.dart';
 
 class MainLayOut extends StatefulWidget {
   @override

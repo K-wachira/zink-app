@@ -7,14 +7,13 @@ import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:zink/services/display/Homepage.dart';
+import 'package:zink/services/mainScreens//Homepage.dart';
 
 class ImageCaptures extends StatefulWidget {
   createState() => _ImageCapturesState();
 }
 
 class _ImageCapturesState extends State<ImageCaptures> {
-
   File _ImageFile;
 
 //  Select an image via gallery or camera

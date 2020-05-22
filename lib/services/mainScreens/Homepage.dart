@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zink/services/JokesAPI/notYetImplemented.dart';
-import 'package:zink/services/display/displayimages.dart';
+import 'package:zink/services/mainScreens/displayimages.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:zink/services/imageuploading/imagepicker.dart';
-import 'package:zink/services/display/SideBar.dart';
-
+import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -31,9 +30,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SizedBox.expand(
-
         child: PageView(
           controller: _pageController,
           onPageChanged: (index) {
@@ -43,7 +40,7 @@ class _HomepageState extends State<Homepage> {
             imageloader(),
             ImageCaptures(),
             notYetImplimented(),
-            notYetImplimented(),
+            loginandsignup(),
           ],
         ),
       ),
@@ -59,7 +56,7 @@ class _HomepageState extends State<Homepage> {
               title: Text('Upload Photos'), icon: Icon(Icons.add_a_photo)),
           BottomNavyBarItem(
               title: Text('Messages'), icon: Icon(Icons.chat_bubble)),
-          BottomNavyBarItem(title: Text('Profile'), icon: Icon(Icons.person)),
+          BottomNavyBarItem(title: Text('Activity'), icon: Icon(Icons.track_changes)),
         ],
       ),
     );

@@ -127,21 +127,10 @@ class imageloader extends StatelessWidget {
             placeholder: (context, url) =>
                 Image.asset('assets/images/loading.gif'),
             placeholderFadeInDuration: Duration(milliseconds: 300),
-
             imageUrl: document['ImageURL'],
           ),
         ),
-//
-//        ProgressiveImage(
-//          placeholder: AssetImage('assets/images/loading.gif'),
-//          // size: 1.87KB
-//          thumbnail: NetworkImage(document['ImageURL']),
-//          // size: 1.29MB
-//          image: NetworkImage(document['ImageURL']),
-//          height: 300,
-//          width: 500,
-//        ),
-//          handles like an save comment and share
+//      handles like an save comment and share
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Row(
@@ -256,17 +245,30 @@ class imageloader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: StreamBuilder(
-          stream: dbconn.collection("Posts").snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
-            print("Snapshot data : ${snapshot.data.toString()}");
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) =>
-                  _buildListItem(context, snapshot.data.documents[index]),
-            );
-          }),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: Text("Zing me"),
+            leading: Icon(Icons.home),
+            backgroundColor: Colors.deepPurple,
+            floating: true,
+            pinned: false,
+            snap: true,
+            actions: <Widget>[Icon(Icons.person)],
+          ),
+          StreamBuilder(
+              stream: dbconn.collection("Posts").snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return CircularProgressIndicator();
+                print("Snapshot data : ${snapshot.data.toString()}");
+                return ListView.builder(
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, index) =>
+                      _buildListItem(context, snapshot.data.documents[index]),
+                );
+              }),
+        ],
+      ),
     );
   }
 }

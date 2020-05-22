@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:zink/services/display/Homepage.dart';
+import 'package:zink/services/mainScreens//Homepage.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/auth.dart';
 import 'package:zink/shared-widgets/loadingWidget.dart';
-
+import 'package:asset_toast/asset_toast.dart';
 
 class loginandsignup extends StatefulWidget {
   @override
@@ -17,6 +17,22 @@ class _loginandsignupState extends State<loginandsignup> {
   String _email, _password, _password1, _finalpass;
   String errors = "";
   String passerrors = '';
+
+  void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        AssetToast.show(content, context,
+            asset: 'assets/images/insta_logo.png',
+            duration: AssetToast.lengthShort,
+            prefixBadge: Colors.deepPurple,
+            gravity: AssetToast.bottom,
+            textStyle: TextStyle(fontWeight: FontWeight.bold),
+            msgColor: Colors.white);
+      },
+    );
+  }
 
   passvalidation() {
     final form = formKey.currentState;
@@ -35,7 +51,7 @@ class _loginandsignupState extends State<loginandsignup> {
       print("From is valid, Email : $_email , password : $_password");
       setState(() => loading = true);
       dynamic result =
-      await _authService.loginwithEmailandpass(_email, _password);
+          await _authService.loginwithEmailandpass(_email, _password);
       if (result == null) {
         print("Not logged in");
         setState(() {
@@ -58,47 +74,85 @@ class _loginandsignupState extends State<loginandsignup> {
       setState(() => loading = true);
       print(loading);
       dynamic result =
-      await _authService.registerwithEmailandpass(_email, _password);
-      if (result == null) {
-        print("There is an error");
-        setState(() {
-          loading = false;
-          errors = "User registration failed";
-        });
-      } else {
+          await _authService.registerwithEmailandpass(_email, _password);
+      if (result != null) {
         print("Registration successful");
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Homepage()));
+      } else {
+        setState(() => loading = false);
+        print("::::::::::::::::: $loading");
+
+          print("There is an error");
+          print("Error in sign up: e");
+          setState(() {
+            loading = false;
+            //TODO show relevant error
+            errors = "AuthService.getExceptionText(e\f-\-fffffffffffffff\-)";
+          });
+
       }
     } else {
       print("form is not valid");
     }
   }
+//  void registerandsave() async {
+//    try {
+//      final form = formKey.currentState;
+//      form.save();
+//      if (form.validate()) {
+//        print("Form is valid Email: $_email , password : $_password");
+//        setState(() => loading = true);
+//        print(loading);
+//        await _authService
+//            .registerwithEmailandpass(_email, _password)
+//            .then((uid) {
+//          AuthService.addUser(uid);
+//        });
+//
+//        print("Registration successful");
+//        Navigator.push(
+//            context, MaterialPageRoute(builder: (context) => Homepage()));
+//      } else {
+//        print("form is not valid");
+//      }
+//    } catch (e) {
+//        print("Error in sign up: $e");
+//      String exception = AuthService.getExceptionText(e);
+//      Scaffold.of(context).showSnackBar(SnackBar(
+//        content:
+//            Text("Error creating account.Check your internet and try again"),
+//      ));
+//      _showErrorAlert(
+//          title: "Signup Failed", content: exception, onPressed: () => null);
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
+    print(loading);
     return loading
         ? loadingwidget()
         : Scaffold(
-      resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.teal[200],
-      appBar: AppBar(
-        title: Text("Login and signup"),
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Image.asset('assets/images/emirates.png'),
-              Container(
-                  child:
-                  (_isVisible) ? _getLoginfrom() : _getSignupForm()),
-            ],
-          ),
-        ),
-      ),
-    );
+            resizeToAvoidBottomPadding: false,
+            backgroundColor: Colors.teal[200],
+            appBar: AppBar(
+              title: Text("Login and signup"),
+            ),
+            body: SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset('assets/images/emirates.png'),
+                    Container(
+                        child:
+                            (_isVisible) ? _getLoginfrom() : _getSignupForm()),
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 
   Widget _getLoginfrom() {
@@ -120,7 +174,7 @@ class _loginandsignupState extends State<loginandsignup> {
                     borderRadius: BorderRadius.circular(32.0)),
               ),
               validator: (value) =>
-              value.isEmpty ? "Email field can't be empty " : null,
+                  value.isEmpty ? "Email field can't be empty " : null,
               onSaved: (value) => _email = value,
             ),
             SizedBox(height: 30),
@@ -136,7 +190,7 @@ class _loginandsignupState extends State<loginandsignup> {
               ),
               obscureText: true,
               validator: (value) =>
-              value.isEmpty ? "Password field can not be empty" : null,
+                  value.isEmpty ? "Password field can not be empty" : null,
               onSaved: (value) => _password = value,
             ),
             Padding(
@@ -190,7 +244,7 @@ class _loginandsignupState extends State<loginandsignup> {
                     borderRadius: BorderRadius.circular(32.0)),
               ),
               validator: (value) =>
-              value.isEmpty ? "This filed is required" : null,
+                  value.isEmpty ? "This filed is required" : null,
               onSaved: (value) => _email = value,
             ),
             SizedBox(height: 25),
@@ -205,7 +259,7 @@ class _loginandsignupState extends State<loginandsignup> {
                     borderRadius: BorderRadius.circular(32.0)),
               ),
               validator: (value) =>
-              value.isEmpty ? "This filed is required" : null,
+                  value.isEmpty ? "This filed is required" : null,
               onSaved: (value) => _password = value,
             ),
             SizedBox(height: 5),
@@ -225,7 +279,7 @@ class _loginandsignupState extends State<loginandsignup> {
                     borderRadius: BorderRadius.circular(32.0)),
               ),
               validator: (value) =>
-              value.isEmpty ? "This filed is required" : null,
+                  value.isEmpty ? "This filed is required" : null,
               onSaved: (value) => _password = value,
             ),
             SizedBox(height: 5),
@@ -271,5 +325,3 @@ class _loginandsignupState extends State<loginandsignup> {
 }
 
 // This class deals with firebase authentifications login and registration
-
-

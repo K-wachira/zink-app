@@ -41,6 +41,8 @@ dependencies:
   flutter_spinkit: ^4.1.2
   fluttertoast: ^4.0.0
   get: ^2.5.7
+  asset_toast: ^1.0.3
+
 
 
 
