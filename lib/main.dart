@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zink/services/display/Homepage.dart';
 import 'package:zink/services/display/displayimages.dart';
 import 'package:zink/services/imageuploading/imagepick.dart';
+import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,7 +32,9 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.grey,
       ),
-      home: Homepage(),
+
+
+      home: loginandsignup(),
     );
 
   }

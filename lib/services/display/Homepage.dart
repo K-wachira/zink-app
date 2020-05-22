@@ -31,7 +31,9 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SizedBox.expand(
+
         child: PageView(
           controller: _pageController,
           onPageChanged: (index) {

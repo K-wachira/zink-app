@@ -14,6 +14,7 @@ class ImageCaptures extends StatefulWidget {
 }
 
 class _ImageCapturesState extends State<ImageCaptures> {
+
   File _ImageFile;
 
 //  Select an image via gallery or camera

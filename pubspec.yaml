@@ -36,6 +36,15 @@ dependencies:
   image_cropper: ^1.2.2
   bottom_navy_bar: ^5.4.0
   cached_network_image: ^2.2.0+1
+  progressive_image: ^1.0.1
+  firebase_auth: ^0.16.0
+  flutter_spinkit: ^4.1.2
+  fluttertoast: ^4.0.0
+  get: ^2.5.7
+
+
+
+
 
 
 

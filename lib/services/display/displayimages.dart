@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:progressive_image/progressive_image.dart';
+
 import 'package:flutter/material.dart';
 
 class imageloader extends StatelessWidget {
@@ -121,17 +123,24 @@ class imageloader extends StatelessWidget {
           onLongPress: () => showDialog(
               context: context,
               builder: (context) => _dialogbuilder(context, document)),
-          child: Flexible(
-            fit: FlexFit.loose,
-            child: CachedNetworkImage(
-              placeholder: (context, url) =>
-                  Image.asset('assets/images/loading.gif'),
-              placeholderFadeInDuration: Duration(milliseconds: 300),
-              imageUrl: document['ImageURL'],
-            ),
+          child: CachedNetworkImage(
+            placeholder: (context, url) =>
+                Image.asset('assets/images/loading.gif'),
+            placeholderFadeInDuration: Duration(milliseconds: 300),
+
+            imageUrl: document['ImageURL'],
           ),
         ),
-
+//
+//        ProgressiveImage(
+//          placeholder: AssetImage('assets/images/loading.gif'),
+//          // size: 1.87KB
+//          thumbnail: NetworkImage(document['ImageURL']),
+//          // size: 1.29MB
+//          image: NetworkImage(document['ImageURL']),
+//          height: 300,
+//          width: 500,
+//        ),
 //          handles like an save comment and share
         Padding(
           padding: const EdgeInsets.all(16.0),
@@ -242,24 +251,6 @@ class imageloader extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Widget imageshow(imageurl) {
-    showDialog(
-        context: null,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            actions: <Widget>[
-              Flexible(
-                  fit: FlexFit.loose,
-                  child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/images/loading.gif',
-                    image: imageurl,
-                    fit: BoxFit.cover,
-                  )),
-            ],
-          );
-        });
   }
 
   @override
