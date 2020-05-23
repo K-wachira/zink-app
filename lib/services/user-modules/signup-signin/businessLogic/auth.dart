@@ -6,7 +6,7 @@ import 'package:zink/services/user-modules/signup-signin/businessLogic/user.dart
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String userid ='';
+  String userid = '';
 
   //  create user obj based on firebaseuser
   User _userFromFirebaseUser(FirebaseUser user) {
@@ -41,7 +41,6 @@ class AuthService {
         }
         return false;
       });
-
 
       return _userFromFirebaseUser(user);
     } catch (e) {

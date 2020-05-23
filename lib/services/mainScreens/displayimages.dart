@@ -1,9 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:progressive_image/progressive_image.dart';
-
-import 'package:flutter/material.dart';
+import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class imageloader extends StatelessWidget {
   var dbconn = Firestore.instance;
@@ -244,31 +243,38 @@ class imageloader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            title: Text("Zing me"),
-            leading: Icon(Icons.home),
-            backgroundColor: Colors.deepPurple,
-            floating: true,
-            pinned: false,
-            snap: true,
-            actions: <Widget>[Icon(Icons.person)],
-          ),
-          StreamBuilder(
-              stream: dbconn.collection("Posts").snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) return CircularProgressIndicator();
-                print("Snapshot data : ${snapshot.data.toString()}");
-                return ListView.builder(
-                  itemCount: snapshot.data.documents.length,
-                  itemBuilder: (context, index) =>
-                      _buildListItem(context, snapshot.data.documents[index]),
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.home),
+        title: Text("Zink"),
+        actions: <Widget>[
+          RaisedButton.icon(
+              onPressed: () {
+                if (true){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => loginandsignup()),
                 );
-              }),
+              }},
+              icon: Icon(Icons.person),
+              label: Text('Profile')),
+          SizedBox(
+            width: 20,
+          )
         ],
+        elevation: 1.0,
       ),
+      body: StreamBuilder(
+          stream: dbconn.collection("Posts").snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return CircularProgressIndicator();
+            print("Snapshot data : ${snapshot.data.toString()}");
+            return ListView.builder(
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) =>
+                  _buildListItem(context, snapshot.data.documents[index]),
+            );
+          }),
     );
   }
 }
