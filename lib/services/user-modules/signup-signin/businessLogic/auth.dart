@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'package:zink/services/user-modules/signup-signin/businessLogic/user.dart';
+import 'package:zink/services/user-modules/signup-signin/businessLogic/model/user.dart';
+import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  String userid = '';
 
   //  create user obj based on firebaseuser
   User _userFromFirebaseUser(FirebaseUser user) {
@@ -23,12 +22,12 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      userid = user.uid;
       print(user.uid);
 
       checkUserExist(user.uid).then((value) {
         if (!value) {
           Firestore.instance.document("Users/${user.uid}").setData({
+            'uid': user.uid,
             'userImage': null,
             'userName': null,
             'email': null,
@@ -69,6 +68,7 @@ class AuthService {
     checkUserExist(uid).then((value) {
       if (!value) {
         Firestore.instance.document("Users/${uid}").setData({
+          'uid': uid,
           'userImage': null,
           'userName': null,
           'email': null,
@@ -80,6 +80,18 @@ class AuthService {
         });
       }
       return false;
+    });
+  }
+
+  static getUser(String uid) {
+    return Firestore.instance
+        .collection("Users")
+        .where("uid", isEqualTo: uid)
+        .snapshots()
+        .map((QuerySnapshot snapshot) {
+      return snapshot.documents.map((doc) {
+        return User.fromDocument(doc);
+      }).first;
     });
   }
 

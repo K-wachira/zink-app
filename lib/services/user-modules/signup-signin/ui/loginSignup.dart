@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zink/services/mainScreens//Homepage.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/auth.dart';
@@ -17,6 +18,9 @@ class _loginandsignupState extends State<loginandsignup> {
   String _email, _password, _password1, _finalpass;
   String errors = "";
   String passerrors = '';
+
+
+
 
   void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
     showDialog(

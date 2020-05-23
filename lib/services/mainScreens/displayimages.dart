@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class imageloader extends StatelessWidget {
@@ -253,7 +254,7 @@ class imageloader extends StatelessWidget {
                 if (true){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => loginandsignup()),
+                  MaterialPageRoute(builder: (context) => userLoggedin()),
                 );
               }},
               icon: Icon(Icons.person),
