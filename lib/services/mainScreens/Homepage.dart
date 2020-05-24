@@ -5,6 +5,8 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:zink/services/imageuploading/imagepicker.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
+import 'SideBar.dart';
+
 class Homepage extends StatefulWidget {
   @override
   _HomepageState createState() => _HomepageState();
@@ -41,6 +43,8 @@ class _HomepageState extends State<Homepage> {
             ImageCaptures(),
             notYetImplimented(),
             loginandsignup(),
+            SideBar(),
+
           ],
         ),
       ),
