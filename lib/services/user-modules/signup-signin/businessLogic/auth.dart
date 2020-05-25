@@ -92,6 +92,9 @@ class AuthService {
       }).first;
     });
   }
+  static Future<void> signOut() async {
+    return FirebaseAuth.instance.signOut();
+  }
 
 
   static Future<bool> checkUserExist(String userId) async {
