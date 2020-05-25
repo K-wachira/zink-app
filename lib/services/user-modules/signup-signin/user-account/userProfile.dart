@@ -55,6 +55,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   checkUserData() async {
+    //TODO fix the logic here for user doc creation and reading
     await checkUserExist(userid).then((value) {
       print("Value $value");
       if (!value) {
