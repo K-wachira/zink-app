@@ -1,15 +1,34 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class imageloader extends StatelessWidget {
   var dbconn = Firestore.instance;
+  
+  void share( BuildContext context, image){
+
+    final String text = "Share ${image}";
+    final RenderBox box = context.findRenderObject();
+    
+    Share.share(
+        text,
+        subject: image,
+        sharePositionOrigin: box.localToGlobal(Offset.zero)&box.size,
+    );
+  }
+  
 
   Widget _dialogbuilder(BuildContext context, DocumentSnapshot document) {
     return SimpleDialog(
+      backgroundColor: Colors.deepPurple,
+      elevation: 1.0,
+      shape: RoundedRectangleBorder(borderRadius:
+      BorderRadius.all(Radius.circular(30))),
       contentPadding: EdgeInsets.zero,
       children: <Widget>[
         CachedNetworkImage(
@@ -177,7 +196,13 @@ class imageloader extends StatelessWidget {
                   new SizedBox(
                     width: 16.0,
                   ),
-                  new Icon(FontAwesomeIcons.share),
+                  GestureDetector(
+                    onTap: () => share(context, NetworkImage(document['ImageURL']) ),
+                    child: new Icon(
+                        FontAwesomeIcons.share,
+
+                    ),
+                  ),
                 ],
               ),
               new Icon(FontAwesomeIcons.bookmark)

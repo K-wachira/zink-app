@@ -43,8 +43,6 @@ class _HomepageState extends State<Homepage> {
             ImageCaptures(),
             notYetImplimented(),
             loginandsignup(),
-            SideBar(),
-
           ],
         ),
       ),
@@ -60,7 +58,8 @@ class _HomepageState extends State<Homepage> {
               title: Text('Upload Photos'), icon: Icon(Icons.add_a_photo)),
           BottomNavyBarItem(
               title: Text('Messages'), icon: Icon(Icons.chat_bubble)),
-          BottomNavyBarItem(title: Text('Activity'), icon: Icon(Icons.track_changes)),
+          BottomNavyBarItem(
+              title: Text('Activity'), icon: Icon(Icons.track_changes)),
         ],
       ),
     );
