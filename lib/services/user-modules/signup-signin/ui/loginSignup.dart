@@ -18,6 +18,7 @@ class _loginandsignupState extends State<loginandsignup> {
   String _email, _password, _password1, _finalpass;
   String errors = "";
   String passerrors = '';
+  String UserID;
 
 
 
@@ -54,16 +55,18 @@ class _loginandsignupState extends State<loginandsignup> {
     if (form.validate()) {
       print("From is valid, Email : $_email , password : $_password");
       setState(() => loading = true);
-      dynamic result =
+      dynamic userid =
           await _authService.loginwithEmailandpass(_email, _password);
-      if (result == null) {
+      if (userid == null) {
         print("Not logged in");
         setState(() {
           loading = false;
           errors = "Failed to log in with those credentials";
         });
       } else {
+
         print("Login successful");
+        print("UserId after log in $userid");
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Homepage()));
       }

@@ -11,38 +11,50 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  String userID;
-  String userObject;
-//
-//  getCurrentUser() async{
-//    FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
-//    setState((){
-//      userID = firebaseUser.uid;
-//    });
-//     return AuthService.getUser(userID);
-//
-//  }
+FirebaseUser user;
+var userobject ;
 
-  getfirebaseuser() async {
-    FirebaseUser firebaseUser = await FirebaseAuth.instance.currentUser();
-
+ Future <void> getCurrentUser() async {
+    FirebaseUser userdata = await FirebaseAuth.instance.currentUser();
     setState(() {
-      userID = firebaseUser.uid;
+      user = userdata;
+      print(user.uid);
+      print(user.email);
+      userobject = getUser(user.uid);
+      print(userobject);
     });
-
-    return AuthService.getUser(userID) as String;
   }
+
+
+
+  static getUser(String uid) {
+    return Firestore.instance.collection("Users").where("uid", isEqualTo: uid).snapshots().map((QuerySnapshot snapshot) {
+      return snapshot.documents.map((doc) {
+        print(doc);
+        return (User.fromDocument(doc));
+      }).first;
+    });
+  }
+
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    getCurrentUser();
 
-    print(userObject);
   }
 
-  final image =
-      'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F4.jpg?alt=media';
+
+
+
+
+
+
+
+
+  final image ='https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F4.jpg?alt=media';
 
   @override
   Widget build(BuildContext context) {
@@ -143,6 +155,7 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                     child: Column(
                       children: <Widget>[
+
                         ListTile(
                           title: Text("User information"),
                         ),
@@ -154,7 +167,7 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         ListTile(
                           title: Text("Email"),
-                          subtitle: Text("butterfly.little@gmail.com"),
+                          subtitle: Text(user.email),
                           leading: Icon(Icons.email),
                         ),
                         ListTile(
@@ -171,19 +184,15 @@ class _UserProfileState extends State<UserProfile> {
                     ),
                   ),
                   SizedBox(height: 325.0),
-
                   Container(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Icon(Icons.settings),
                         Text("Terms and Conditions"),
-
-
                       ],
                     ),
                   )
-
                 ],
               ),
             ),

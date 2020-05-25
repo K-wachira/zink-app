@@ -5,6 +5,7 @@ import 'package:zink/services/user-modules/signup-signin/businessLogic/model/use
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class AuthService {
+  
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //  create user obj based on firebaseuser
@@ -54,7 +55,7 @@ class AuthService {
       AuthResult result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      return user.uid;
     } catch (e) {
       print(e.toString());
       return null;
@@ -84,16 +85,14 @@ class AuthService {
   }
 
   static getUser(String uid) {
-    return Firestore.instance
-        .collection("Users")
-        .where("uid", isEqualTo: uid)
-        .snapshots()
-        .map((QuerySnapshot snapshot) {
-      return snapshot.documents.map((doc) {
+    return Firestore.instance.collection("Users").where("uid", isEqualTo: uid).snapshots().map((QuerySnapshot snapshot) {
+        return snapshot.documents.map((doc) {
+          print(doc);
         return User.fromDocument(doc);
       }).first;
     });
   }
+
 
   static Future<bool> checkUserExist(String userId) async {
     bool exists = false;

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:zink/services/mainScreens//displayimages.dart';
 
-import 'package:zink/services/mainScreens//SideBar.dart';
-
 class MainLayOut extends StatefulWidget {
   @override
   _MainLayOutState createState() => _MainLayOutState();
@@ -15,8 +13,7 @@ class _MainLayOutState extends State<MainLayOut> {
     return Stack(
       children: <Widget>[
         imageloader(),
-        SideBar(),
-
+//        SideBar(),
       ],
     );
   }

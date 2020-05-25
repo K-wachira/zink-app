@@ -7,12 +7,18 @@ import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 import 'SideBar.dart';
 
+
 class Homepage extends StatefulWidget {
+  final String userid;
+
+  const Homepage({Key key, this.userid}) : super(key: key);
+
   @override
   _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+  String userid;
   int _currentIndex = 0;
 
   PageController _pageController;
@@ -39,9 +45,9 @@ class _HomepageState extends State<Homepage> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            imageloader(),
+            imageloader( ),
             ImageCaptures(),
-            notYetImplimented(),
+            StatusWheelView(),
             loginandsignup(),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zink/services/mainScreens//Homepage.dart';
+import 'package:zink/services/mainScreens/SideBar.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,10 +32,7 @@ class MyApp extends StatelessWidget {
       ),
 
 
-      home:
-          Homepage(),
-
-
+      home: Homepage()
     );
 
   }

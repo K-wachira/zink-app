@@ -7,28 +7,35 @@ import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
-class imageloader extends StatelessWidget {
-  var dbconn = Firestore.instance;
-  
-  void share( BuildContext context, image){
+import 'SideBar.dart';
 
+class imageloader extends StatefulWidget {
+
+
+  @override
+  _imageloaderState createState() => _imageloaderState();
+}
+
+class _imageloaderState extends State<imageloader> {
+  var dbconn = Firestore.instance;
+
+  void share(BuildContext context, image) {
     final String text = "Share ${image}";
     final RenderBox box = context.findRenderObject();
-    
+
     Share.share(
-        text,
-        subject: image,
-        sharePositionOrigin: box.localToGlobal(Offset.zero)&box.size,
+      text,
+      subject: image,
+      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
     );
   }
-  
 
   Widget _dialogbuilder(BuildContext context, DocumentSnapshot document) {
     return SimpleDialog(
       backgroundColor: Colors.deepPurple,
       elevation: 1.0,
-      shape: RoundedRectangleBorder(borderRadius:
-      BorderRadius.all(Radius.circular(30))),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(30))),
       contentPadding: EdgeInsets.zero,
       children: <Widget>[
         CachedNetworkImage(
@@ -101,7 +108,7 @@ class imageloader extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-//          user info
+        //          user info
         Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
           child: Row(
@@ -197,10 +204,10 @@ class imageloader extends StatelessWidget {
                     width: 16.0,
                   ),
                   GestureDetector(
-                    onTap: () => share(context, NetworkImage(document['ImageURL']) ),
+                    onTap: () =>
+                        share(context, NetworkImage(document['ImageURL'])),
                     child: new Icon(
-                        FontAwesomeIcons.share,
-
+                      FontAwesomeIcons.share,
                     ),
                   ),
                 ],
@@ -276,12 +283,13 @@ class imageloader extends StatelessWidget {
         actions: <Widget>[
           RaisedButton.icon(
               onPressed: () {
-                if (true){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => userLoggedin()),
-                );
-              }},
+                if (true) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => userLoggedin()),
+                  );
+                }
+              },
               icon: Icon(Icons.person),
               label: Text('Profile')),
           SizedBox(
@@ -290,18 +298,19 @@ class imageloader extends StatelessWidget {
         ],
         elevation: 1.0,
       ),
+
       body: StreamBuilder(
           stream: dbconn.collection("Posts").snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             print("Snapshot data : ${snapshot.data.toString()}");
+
             return ListView.builder(
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) =>
                   _buildListItem(context, snapshot.data.documents[index]),
             );
           }),
-
     );
   }
 }
