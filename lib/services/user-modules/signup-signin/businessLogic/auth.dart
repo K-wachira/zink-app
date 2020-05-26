@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/model/user.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
+import 'package:date_time_format/date_time_format.dart';
 
 class AuthService {
   
@@ -19,6 +20,9 @@ class AuthService {
 
   // register user using email and pass
   Future registerwithEmailandpass(String email, String password) async {
+    final image =
+        'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F4.jpg?alt=media';
+
     try {
       AuthResult result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -26,17 +30,19 @@ class AuthService {
       print(user.uid);
 
       checkUserExist(user.uid).then((value) {
+        final dateTime = DateTime.now();
         if (!value) {
           Firestore.instance.document("Users/${user.uid}").setData({
             'uid': user.uid,
-            'userImage': null,
-            'userName': null,
-            'email': null,
-            'joinedOn': 0,
-            'Gender': 0,
+            'userImage': image,
+            'userName': "Not set",
+            'email': user.email,
+            'joinedOn': (DateTimeFormat.format(dateTime, format: 'D, M j, H:i')),
+            'Gender': 'Not set',
             'upvotedPosts': [0],
             'downvotedPosts': [0],
             'commentedPosts': [0],
+            'Phone Number': 000
           });
         }
         return false;

@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:zink/services/mainScreens/Homepage.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/auth.dart';
-import 'package:zink/services/user-modules/signup-signin/businessLogic/model/user.dart';
+
 
 class UserProfile extends StatefulWidget {
   @override
@@ -25,24 +25,27 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       user = userdata;
       print(user.uid);
+      print(1);
       userid = user.uid;
       print(user.email);
     });
   }
 
+  void username() {}
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getCurrentUser();
-    checkUserData();
     _db.settings(persistenceEnabled: true, cacheSizeBytes: 1048576);
+
+      getCurrentUser();
   }
 
-  static Future<bool> checkUserExist(String userID) async {
+  static Future<bool> checkUserExist(String userid) async {
     bool exists = false;
     try {
-      await Firestore.instance.document("Users/$userID").get().then((doc) {
+      await Firestore.instance.document("Users/$userid").get().then((doc) {
         if (doc.exists)
           exists = true;
         else
@@ -54,26 +57,6 @@ class _UserProfileState extends State<UserProfile> {
     }
   }
 
-  checkUserData() async {
-    //TODO fix the logic here for user doc creation and reading
-    await checkUserExist(userid).then((value) {
-      print("Value $value");
-      if (!value) {
-        //data doesnt exist..create data
-        Firestore.instance.collection("Users").document(user.uid).setData({
-          "userImage": null,
-          "Gender": null,
-          "commentedPosts": [0],
-          "downvotedPosts": [0],
-          "email": user.email,
-          "joinedOn": DateTime.now(),
-          "upvotedPosts": [0],
-          "userName": null,
-          "phoneNo": 0,
-        });
-      }
-    });
-  }
 
   void _signOut() async {
     AuthService.signOut();
@@ -100,8 +83,7 @@ class _UserProfileState extends State<UserProfile> {
                     }
 
                     var userDoc = snapshot.data;
-                    print(userid);
-                    var userImage = userDoc["userImage"];
+                    print("uid $userid");
                     var Gender = userDoc["Gender"];
                     var commentedPosts = userDoc["commentedPosts"];
                     var downvotedPosts = userDoc["downvotedPosts"];
@@ -110,16 +92,19 @@ class _UserProfileState extends State<UserProfile> {
                     var upvotedPosts = userDoc["upvotedPosts"];
                     var userName = userDoc["userName"];
 
-                    print(userName);
+                    print(" name $userName");
+                    print(joinedOn);
 
                     return Stack(
                       children: <Widget>[
                         SizedBox(
                           height: 250,
                           width: double.infinity,
-                          child: Image.network(
-                            userImage,
-                            fit: BoxFit.cover,
+                          child :CachedNetworkImage(
+                            placeholder: (context, url) =>
+                                Image.asset('assets/images/loading.gif'),
+                            placeholderFadeInDuration: Duration(milliseconds: 300),
+                            imageUrl: userDoc["userImage"],
                           ),
                         ),
                         Container(
@@ -201,7 +186,7 @@ class _UserProfileState extends State<UserProfile> {
                                             BorderRadius.circular(10.0),
                                         image: DecorationImage(
                                             image: CachedNetworkImageProvider(
-                                                userImage),
+                                                userDoc["userImage"]),
                                             fit: BoxFit.cover)),
                                     margin: EdgeInsets.only(left: 16.0),
                                   ),
@@ -229,6 +214,7 @@ class _UserProfileState extends State<UserProfile> {
                                       subtitle: Text(' $email'),
                                       leading: Icon(Icons.email),
                                     ),
+//                                  /
                                     ListTile(
                                       title: Text("Phone"),
                                       subtitle: Text("+977-9815225566"),

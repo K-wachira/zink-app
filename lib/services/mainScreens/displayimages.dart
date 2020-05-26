@@ -5,9 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
-import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
-
-import 'SideBar.dart';
 
 class imageloader extends StatefulWidget {
 
@@ -32,7 +29,7 @@ class _imageloaderState extends State<imageloader> {
 
   Widget _dialogbuilder(BuildContext context, DocumentSnapshot document) {
     return SimpleDialog(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.grey.shade300,
       elevation: 1.0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -131,7 +128,7 @@ class _imageloaderState extends State<imageloader> {
                     width: 10.0,
                   ),
                   new Text(
-                    "#memehastag",
+                    "#memehashtag",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
