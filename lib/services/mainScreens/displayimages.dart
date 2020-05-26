@@ -5,10 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
+import 'package:zink/services/mainScreens/PostItem.dart';
 
 class imageloader extends StatefulWidget {
-
-
   @override
   _imageloaderState createState() => _imageloaderState();
 }
@@ -99,6 +98,145 @@ class _imageloaderState extends State<imageloader> {
     );
   }
 
+  Widget _buildItem(BuildContext context, DocumentSnapshot document) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 8.0, 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                // comment section
+                children: <Widget>[
+                  new Container(
+                    height: 40.0,
+                    width: 40.0,
+                    decoration: new BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                          fit: BoxFit.fill,
+                          image: new NetworkImage(document['ImageURL'])),
+                    ),
+                  ),
+                  new SizedBox(
+                    width: 10.0,
+                  ),
+                  new Text(
+                    "#memehashtag",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              new IconButton(
+                icon: Icon(Icons.more_vert),
+                onPressed: null,
+              )
+            ],
+          ),
+        ),
+        CachedNetworkImage(
+          placeholder: (context, url) =>
+              Image.asset('assets/images/loading.gif'),
+          placeholderFadeInDuration: Duration(milliseconds: 300),
+          imageUrl: document['ImageURL'],
+        ),
+
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "Tags: #Screenshot #meme #dark humor",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.blueAccent),
+          ),
+        ),
+
+        // TODO have a stream builder for comments
+        SizedBox(height: 030,),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+        Divider(),
+        ListTile(
+          title: Text("Name of commentor"),
+          subtitle: Text(" The comment"),
+          leading: Icon(Icons.perm_identity),
+        ),
+
+        // user add comment comment section
+
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              new Container(
+                height: 40.0,
+                width: 40.0,
+                decoration: new BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: new DecorationImage(
+                      fit: BoxFit.fill,
+                      image: new NetworkImage(document['ImageURL'])),
+                ),
+              ),
+              new SizedBox(
+                width: 10.0,
+              ),
+              Expanded(
+                child: new TextField(
+                  decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Add a comment...",
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+
+
+      ],
+    );
+  }
+
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -146,6 +284,17 @@ class _imageloaderState extends State<imageloader> {
           onLongPress: () => showDialog(
               context: context,
               builder: (context) => _dialogbuilder(context, document)),
+          onDoubleTap: () {
+            document.reference
+                .updateData({'downvotes': document['downvotes'] + 1});
+          },
+          onTap: () {
+            print("(_buildItem(context, document))");
+            //TODO push image id though this and use it to generate image document
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ImageItem(image: image,)));
+            _buildItem(context, document);
+          },
           child: CachedNetworkImage(
             placeholder: (context, url) =>
                 Image.asset('assets/images/loading.gif'),
@@ -295,7 +444,6 @@ class _imageloaderState extends State<imageloader> {
         ],
         elevation: 1.0,
       ),
-
       body: StreamBuilder(
           stream: dbconn.collection("Posts").snapshots(),
           builder: (context, snapshot) {
