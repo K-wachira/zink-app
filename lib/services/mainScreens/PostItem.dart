@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class ImageItem extends StatefulWidget {
+  final String image;
+  ImageItem({Key key, this.image}): super(key:key);
   @override
   _ImageItemState createState() => _ImageItemState();
 }
 
 class _ImageItemState extends State<ImageItem> {
-  final image =
-      'https://firebasestorage.googleapis.com/v0/b/dl-flutter-ui-challenges.appspot.com/o/img%2F4.jpg?alt=media';
+
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class _ImageItemState extends State<ImageItem> {
             delegate: HeroHeader(
               minExtent: 250,
               maxExtent: 450,
-              image: image,
+              image: widget.image,
             ),
           ),
 

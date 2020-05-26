@@ -292,7 +292,7 @@ class _imageloaderState extends State<imageloader> {
             print("(_buildItem(context, document))");
             //TODO push image id though this and use it to generate image document
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ImageItem(image: image,)));
+                context, MaterialPageRoute(builder: (context) => ImageItem(image: document['ImageURL'])));
             _buildItem(context, document);
           },
           child: CachedNetworkImage(
