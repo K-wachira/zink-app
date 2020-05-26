@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ImageItem extends StatefulWidget {
@@ -17,22 +18,38 @@ class _ImageItemState extends State<ImageItem> {
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          return Column(
-            children: <Widget>[
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                autofocus: false,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.alternate_email),
-                  hintText: 'Email',
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(32.0)),
-                ),
-              ),
-            ],
+          return Container(
+            color: Color(0xFF737373),
+            height: 160,
+            child: Container(
+              child: _buildBottomCommentSection(),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                  )),
+            ),
           );
         });
+  }
+
+  Column _buildBottomCommentSection() {
+    return Column(
+      children: <Widget>[
+        TextFormField(
+          keyboardType: TextInputType.emailAddress,
+          autofocus: false,
+          decoration: InputDecoration(
+            icon: Icon(Icons.alternate_email),
+            hintText: 'Email',
+            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+          ),
+        ),
+      ],
+    );
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
 import 'package:zink/services/mainScreens/ItemPost.dart';
+import 'package:zink/shared-widgets/MorePopUpMenu.dart';
 
 class imageloader extends StatefulWidget {
   @override
@@ -273,7 +274,10 @@ class _imageloaderState extends State<imageloader> {
               ),
               new IconButton(
                 icon: Icon(Icons.more_vert),
-                onPressed: null,
+                onPressed: () => showDialog(
+                    context: context,
+                  builder: (context) => MorePopUpMenu(),
+                ),
               )
             ],
           ),
@@ -286,11 +290,11 @@ class _imageloaderState extends State<imageloader> {
               builder: (context) => _dialogbuilder(context, document)),
           onDoubleTap: () {
             document.reference
-                .updateData({'downvotes': document['downvotes'] + 1});
+                .updateData({'upvotes': document['upvotes'] + 1});
           },
           onTap: () {
             print("(_buildItem(context, document))");
-            //TODO push image id though this and use it to generate image document
+            // pushing image id though this and use it to generate image document
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => ImageItem(image: document['ImageURL'] )));
             _buildItem(context, document);
