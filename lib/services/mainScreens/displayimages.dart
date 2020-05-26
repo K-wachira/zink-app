@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
-import 'package:zink/services/mainScreens/PostItem.dart';
+import 'package:zink/services/mainScreens/ItemPost.dart';
 
 class imageloader extends StatefulWidget {
   @override
@@ -292,7 +292,7 @@ class _imageloaderState extends State<imageloader> {
             print("(_buildItem(context, document))");
             //TODO push image id though this and use it to generate image document
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ImageItem(image: document['ImageURL'])));
+                context, MaterialPageRoute(builder: (context) => ImageItem(image: document['ImageURL'] )));
             _buildItem(context, document);
           },
           child: CachedNetworkImage(
