@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zink/services/JokesAPI/notYetImplemented.dart';
-import 'package:zink/services/mainScreens/displayimages.dart';
+import 'package:zink/services/mainScreens/PostDisplay/displayimages.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:zink/services/imageuploading/imagepicker.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';

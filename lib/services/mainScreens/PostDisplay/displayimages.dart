@@ -5,8 +5,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
-import 'package:zink/services/mainScreens/ItemPost.dart';
+import 'package:zink/services/mainScreens/PostDisplay/PostDialog.dart';
+import 'package:zink/services/mainScreens/PostDisplay/ItemPost.dart';
+
 import 'package:zink/shared-widgets/MorePopUpMenu.dart';
+
 
 class imageloader extends StatefulWidget {
   @override
@@ -27,77 +30,7 @@ class _imageloaderState extends State<imageloader> {
     );
   }
 
-  Widget _dialogbuilder(BuildContext context, DocumentSnapshot document) {
-    return SimpleDialog(
-      backgroundColor: Colors.grey.shade300,
-      elevation: 1.0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30))),
-      contentPadding: EdgeInsets.zero,
-      children: <Widget>[
-        CachedNetworkImage(
-          fit: BoxFit.fill,
-          placeholder: (context, url) =>
-              Image.asset('assets/images/loading.gif'),
-          placeholderFadeInDuration: Duration(milliseconds: 300),
-          imageUrl: document['ImageURL'],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  FlatButton.icon(
-                      icon: Icon(
-                        Icons.arrow_upward,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        document["upvotes"].toString(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () {
-                        document.reference
-                            .updateData({'upvotes': document['upvotes'] + 1});
-                      }),
-                  FlatButton.icon(
-                      icon: Icon(
-                        Icons.arrow_downward,
-                        color: Colors.black,
-                      ),
-                      label: Text(
-                        document["downvotes"].toString(),
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: () {
-                        document.reference.updateData(
-                            {'downvotes': document['downvotes'] + 1});
-                      }),
-                  SizedBox(
-                    width: 15,
-                  ),
-                  new SizedBox(
-                    width: 16.0,
-                  ),
-                  new Icon(FontAwesomeIcons.share),
-                ],
-              ),
-              new Icon(FontAwesomeIcons.bookmark)
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+
 
   Widget _buildItem(BuildContext context, DocumentSnapshot document) {
     return Column(
@@ -287,7 +220,7 @@ class _imageloaderState extends State<imageloader> {
         GestureDetector(
           onLongPress: () => showDialog(
               context: context,
-              builder: (context) => _dialogbuilder(context, document)),
+              builder: (context) => dialogbuilder(image:document['ImageURL'])),
           onDoubleTap: () {
             document.reference
                 .updateData({'upvotes': document['upvotes'] + 1});
