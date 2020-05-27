@@ -80,13 +80,20 @@ class _imageloaderState extends State<imageloader> {
 
 //         Main picture
         GestureDetector(
-          onLongPress: () => showDialog(
+//              brings up the image to focus on long press
+
+        onLongPress: () => showDialog(
               context: context,
-              builder: (context) => dialogbuilder(image:document['ImageURL'])),
+                builder: (context) => dialogbuilder(image:document['ImageURL'])),
+
+//      Up voted the image on double tap TODO add animation on double tap
           onDoubleTap: () {
             document.reference
                 .updateData({'upvotes': document['upvotes'] + 1});
           },
+
+//      On tap opened the image comment section and gives the user chance to comment
+
           onTap: () {
             print("(_buildItem(context, document))");
             // pushing image id though this and use it to generate image document
@@ -100,6 +107,7 @@ class _imageloaderState extends State<imageloader> {
             imageUrl: document['ImageURL'],
           ),
         ),
+
 //      handles like an save comment and share
         Padding(
           padding: const EdgeInsets.all(16.0),
