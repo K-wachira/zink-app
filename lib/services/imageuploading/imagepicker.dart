@@ -7,7 +7,9 @@ import 'package:flutter/src/widgets/basic.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:zink/services/mainScreens//Homepage.dart';
+import 'package:zink/services/mainScreens/Homepage.dart';
+
+import 'UploadingPage.dart';
 
 class ImageCaptures extends StatefulWidget {
   createState() => _ImageCapturesState();
@@ -49,21 +51,25 @@ class _ImageCapturesState extends State<ImageCaptures> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey,
         actions: <Widget>[
-          if (_ImageFile != null) ...[
-            Row(
-              children: <Widget>[
+          Row(
+            children: <Widget>[
+              if (_ImageFile != null) ...[
                 FlatButton(
-                  child: Icon(Icons.crop),
+                  child: Icon(
+                    Icons.crop,
+                    color: Colors.red,
+                  ),
                   onPressed: _cropImage,
                 ),
                 FlatButton(
                   child: Icon(Icons.cancel),
                   onPressed: _clear,
                 ),
-              ],
-            ),
-          ]
+              ]
+            ],
+          ),
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -86,7 +92,10 @@ class _ImageCapturesState extends State<ImageCaptures> {
       body: ListView(
         children: <Widget>[
           if (_ImageFile != null) ...[
-            Image.file(_ImageFile),
+            Image.file(
+              _ImageFile,
+              height: 500,
+            ),
             Uploader(
               file: _ImageFile,
             )
@@ -98,7 +107,7 @@ class _ImageCapturesState extends State<ImageCaptures> {
 }
 
 class Uploader extends StatefulWidget {
-  final File file;
+  File file;
 
   Uploader({Key key, this.file}) : super(key: key);
 
@@ -132,30 +141,67 @@ class _UploaderState extends State<Uploader> {
   @override
   Widget build(BuildContext context) {
     if (_uploadTask != null) {
-      return StreamBuilder<StorageTaskEvent>(
-          stream: _uploadTask.events,
-          builder: (context, snapshots) {
-            var event = snapshots?.data?.snapshot;
+      print("upload task not null");
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.grey,
+          actions: <Widget>[
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  child: Icon(
+                    Icons.crop,
+                    color: Colors.red,
+                  ),
+//                    onPressed: _cropImage,
+                ),
+                FlatButton(
+                  child: Icon(Icons.cancel),
+//                    onPressed: _clear,
+                ),
+              ],
+            ),
+          ],
+        ),
+        body: StreamBuilder<StorageTaskEvent>(
+            stream: _uploadTask.events,
+            builder: (context, snapshots) {
+              var event = snapshots?.data?.snapshot;
 
-            double ProgressPercent = event != null
-                ? event.bytesTransferred / event.totalByteCount
-                : 0;
-            print('${(ProgressPercent * 100).toStringAsFixed(2)}%');
-            return Container();
-          });
+              double ProgressPercent = event != null
+                  ? event.bytesTransferred / event.totalByteCount
+                  : 0;
+              print('${(ProgressPercent * 100).toStringAsFixed(2)}%');
+
+              return Container(
+                child: Column(
+                  children: <Widget>[
+                    LinearProgressIndicator(
+                      value: ProgressPercent * 100,
+                    ),
+                    Text(
+                      '${(ProgressPercent * 100).toStringAsFixed(2)}%',
+                      style: TextStyle(fontSize: 40),
+                    ),
+                  ],
+                ),
+              );
+            }),
+      );
     } else {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           FlatButton.icon(
-              color: Colors.red,
+              color: Colors.blue,
               onPressed: () {
                 _startUpload();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Homepage()),
+                  MaterialPageRoute(builder: (context) => Homepages()),
                 );
               },
-              icon: Icon(Icons.file_upload),
+              icon: Icon(Icons.cloud_upload),
               label: Text("Upload")),
         ],
       );

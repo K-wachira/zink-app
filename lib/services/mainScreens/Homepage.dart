@@ -8,16 +8,16 @@ import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 import 'SideBar.dart';
 
 
-class Homepage extends StatefulWidget {
+class Homepages extends StatefulWidget {
   final String userid;
 
-  const Homepage({Key key, this.userid}) : super(key: key);
+  const Homepages({Key key, this.userid}) : super(key: key);
 
   @override
-  _HomepageState createState() => _HomepageState();
+  _HomepagesState createState() => _HomepagesState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepagesState extends State<Homepages> {
   String userid;
   int _currentIndex = 0;
 

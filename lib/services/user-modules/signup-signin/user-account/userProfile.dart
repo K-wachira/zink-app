@@ -60,7 +60,7 @@ class _UserProfileState extends State<UserProfile> {
 
   void _signOut() async {
     AuthService.signOut();
-    Get.to(Homepage());
+    Get.to(Homepages());
   }
 
   final image =

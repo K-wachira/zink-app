@@ -68,7 +68,7 @@ class _loginandsignupState extends State<loginandsignup> {
         print("Login successful");
         print("UserId after log in $userid");
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Homepage()));
+            context, MaterialPageRoute(builder: (context) => Homepages()));
       }
     }
   }
@@ -85,7 +85,7 @@ class _loginandsignupState extends State<loginandsignup> {
       if (result != null) {
         print("Registration successful");
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Homepage()));
+            context, MaterialPageRoute(builder: (context) => Homepages()));
       } else {
         setState(() => loading = false);
         print("::::::::::::::::: $loading");
