@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_format/date_time_format.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -55,19 +56,17 @@ class _ImageCapturesState extends State<ImageCaptures> {
         actions: <Widget>[
           Row(
             children: <Widget>[
-              if (_ImageFile != null) ...[
-                FlatButton(
-                  child: Icon(
-                    Icons.crop,
-                    color: Colors.red,
-                  ),
-                  onPressed: _cropImage,
+              FlatButton(
+                child: Icon(
+                  Icons.crop,
+                  color: Colors.red,
                 ),
-                FlatButton(
-                  child: Icon(Icons.cancel),
-                  onPressed: _clear,
-                ),
-              ]
+                onPressed: _cropImage,
+              ),
+              FlatButton(
+                child: Icon(Icons.cancel),
+                onPressed: _clear,
+              ),
             ],
           ),
         ],
@@ -127,43 +126,28 @@ class _UploaderState extends State<Uploader> {
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
     });
+    print("Uploading");
 
     final String url =
         await (await _uploadTask.onComplete).ref.getDownloadURL();
     Firestore.instance.collection('Posts').document().setData({
       'ImageURL': url,
-      'downvotes': 0,
-      'upvotes': 0,
+      'downvotes': 066,
+      'upvotes': 88,
+      'uploadedOn': (DateTimeFormat.format(filename, format: 'H:i:s, d, Y'))
     });
+
+
   }
+
+
 
   //two function
   @override
   Widget build(BuildContext context) {
     if (_uploadTask != null) {
       print("upload task not null");
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey,
-          actions: <Widget>[
-            Row(
-              children: <Widget>[
-                FlatButton(
-                  child: Icon(
-                    Icons.crop,
-                    color: Colors.red,
-                  ),
-//                    onPressed: _cropImage,
-                ),
-                FlatButton(
-                  child: Icon(Icons.cancel),
-//                    onPressed: _clear,
-                ),
-              ],
-            ),
-          ],
-        ),
-        body: StreamBuilder<StorageTaskEvent>(
+      return StreamBuilder<StorageTaskEvent>(
             stream: _uploadTask.events,
             builder: (context, snapshots) {
               var event = snapshots?.data?.snapshot;
@@ -186,14 +170,13 @@ class _UploaderState extends State<Uploader> {
                   ],
                 ),
               );
-            }),
-      );
+            });
+
     } else {
       return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           FlatButton.icon(
-              color: Colors.blue,
+              color: Colors.red,
               onPressed: () {
                 _startUpload();
                 Navigator.push(
@@ -201,8 +184,9 @@ class _UploaderState extends State<Uploader> {
                   MaterialPageRoute(builder: (context) => Homepages()),
                 );
               },
-              icon: Icon(Icons.cloud_upload),
+              icon: Icon(Icons.file_upload),
               label: Text("Upload")),
+
         ],
       );
     }

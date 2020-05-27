@@ -33,7 +33,6 @@ dependencies:
   transparent_image: ^1.0.0
   toast: ^0.1.4
   rxdart: ^0.24.1
-  image_cropper: ^1.2.2
   bottom_navy_bar: ^5.4.0
   cached_network_image: ^2.2.0+1
   progressive_image: ^1.0.1
@@ -44,6 +43,8 @@ dependencies:
   asset_toast: ^1.0.3
   share: ^0.6.4+3
   date_time_format: ^0.1.1+1
+  image_cropper: ^1.2.2
+
 
 
 
