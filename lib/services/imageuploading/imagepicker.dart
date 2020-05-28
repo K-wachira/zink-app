@@ -9,10 +9,14 @@ import 'package:flutter/widgets.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zink/services/mainScreens/Homepage.dart';
-
-import 'UploadingPage.dart';
+import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 class ImageCaptures extends StatefulWidget {
+  final bool isloggedin;
+  final String UserId;
+
+  const ImageCaptures({Key key, this.isloggedin, this.UserId})
+      : super(key: key);
   createState() => _ImageCapturesState();
 }
 
@@ -76,15 +80,43 @@ class _ImageCapturesState extends State<ImageCaptures> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.photo_camera),
-              tooltip: 'Caputure Images',
-              onPressed: () => pickImage(ImageSource.camera),
-            ),
+                icon: Icon(Icons.photo_camera),
+                tooltip: 'Caputure Images',
+                onPressed: () {
+                  print("Double tap value :");
+                  print(widget.isloggedin);
+                  print((widget.UserId).length);
+                  print("value above this is the result:");
+                  if (widget.isloggedin) {
+                    print(widget.isloggedin);
+                    pickImage(ImageSource.camera);
+                  } else {
+                    //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => loginandsignup()),
+                    );
+                  }
+                }),
             IconButton(
-              icon: Icon(Icons.photo_library),
-              tooltip: "Add photos from Gallery",
-              onPressed: () => pickImage(ImageSource.gallery),
-            )
+                icon: Icon(Icons.photo_library),
+                tooltip: "Add photos from Gallery",
+                onPressed: () {
+                  print("Double tap value :");
+                  print(widget.isloggedin);
+                  print((widget.UserId).length);
+                  print("value above this is the result:");
+                  if (widget.isloggedin) {
+                    print(widget.isloggedin);
+                    pickImage(ImageSource.gallery);
+                  } else {
+                    //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => loginandsignup()),
+                    );
+                  }
+                })
           ],
         ),
       ),
@@ -136,11 +168,7 @@ class _UploaderState extends State<Uploader> {
       'upvotes': 88,
       'uploadedOn': (DateTimeFormat.format(filename, format: 'H:i:s, d, Y'))
     });
-
-
   }
-
-
 
   //two function
   @override
@@ -148,30 +176,29 @@ class _UploaderState extends State<Uploader> {
     if (_uploadTask != null) {
       print("upload task not null");
       return StreamBuilder<StorageTaskEvent>(
-            stream: _uploadTask.events,
-            builder: (context, snapshots) {
-              var event = snapshots?.data?.snapshot;
+          stream: _uploadTask.events,
+          builder: (context, snapshots) {
+            var event = snapshots?.data?.snapshot;
 
-              double ProgressPercent = event != null
-                  ? event.bytesTransferred / event.totalByteCount
-                  : 0;
-              print('${(ProgressPercent * 100).toStringAsFixed(2)}%');
+            double ProgressPercent = event != null
+                ? event.bytesTransferred / event.totalByteCount
+                : 0;
+            print('${(ProgressPercent * 100).toStringAsFixed(2)}%');
 
-              return Container(
-                child: Column(
-                  children: <Widget>[
-                    LinearProgressIndicator(
-                      value: ProgressPercent * 100,
-                    ),
-                    Text(
-                      '${(ProgressPercent * 100).toStringAsFixed(2)}%',
-                      style: TextStyle(fontSize: 40),
-                    ),
-                  ],
-                ),
-              );
-            });
-
+            return Container(
+              child: Column(
+                children: <Widget>[
+                  LinearProgressIndicator(
+                    value: ProgressPercent * 100,
+                  ),
+                  Text(
+                    '${(ProgressPercent * 100).toStringAsFixed(2)}%',
+                    style: TextStyle(fontSize: 40),
+                  ),
+                ],
+              ),
+            );
+          });
     } else {
       return Row(
         children: <Widget>[
@@ -186,7 +213,6 @@ class _UploaderState extends State<Uploader> {
               },
               icon: Icon(Icons.file_upload),
               label: Text("Upload")),
-
         ],
       );
     }
