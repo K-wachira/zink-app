@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,31 +8,37 @@ import 'package:share/share.dart';
 import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
 import 'package:zink/services/mainScreens/PostDisplay/PostDialog.dart';
 import 'package:zink/services/mainScreens/PostDisplay/ItemPost.dart';
+import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 import 'package:zink/shared-widgets/MorePopUpMenu.dart';
 
-
 class imageloader extends StatefulWidget {
+  final bool isloggedin;
+  final String UserId;
+
+  imageloader({Key key, this.isloggedin, this.UserId}) : super(key: key);
+
   @override
   _imageloaderState createState() => _imageloaderState();
 }
 
 class _imageloaderState extends State<imageloader> {
-  var dbconn = Firestore.instance;
+  Future<bool> LoggedIn() async {
+    print("userid :");
+    FirebaseUser userdata = await FirebaseAuth.instance.currentUser();
 
-  void share(BuildContext context, image) {
-    final String text = "Share ${image}";
-    final RenderBox box = context.findRenderObject();
+    var userid = userdata.uid;
+    print("userid : $userid");
 
-    Share.share(
-      text,
-      subject: image,
-      sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size,
-    );
+    print(userdata.uid);
+    if ((userdata.uid).length > 4) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-
-
+  var dbconn = Firestore.instance;
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return Column(
@@ -70,7 +77,7 @@ class _imageloaderState extends State<imageloader> {
               new IconButton(
                 icon: Icon(Icons.more_vert),
                 onPressed: () => showDialog(
-                    context: context,
+                  context: context,
                   builder: (context) => MorePopUpMenu(),
                 ),
               )
@@ -82,14 +89,29 @@ class _imageloaderState extends State<imageloader> {
         GestureDetector(
 //              brings up the image to focus on long press
 
-        onLongPress: () => showDialog(
+          onLongPress: () => showDialog(
               context: context,
-                builder: (context) => dialogbuilder(image:document['ImageURL'])),
+              builder: (context) => dialogbuilder(image: document['ImageURL'])),
 
 //      Up voted the image on double tap TODO add animation on double tap
           onDoubleTap: () {
-            document.reference
-                .updateData({'upvotes': document['upvotes'] + 1});
+            print("Double tap value :");
+            print(widget.isloggedin);
+            print((widget.UserId).length);
+            print("value above this is the result:");
+
+            if (widget.isloggedin) {
+              print(widget.isloggedin);
+
+              document.reference
+                  .updateData({'upvotes': document['upvotes'] + 1});
+            } else {
+              //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => loginandsignup()),
+              );
+            }
           },
 
 //      On tap opened the image comment section and gives the user chance to comment
@@ -98,7 +120,10 @@ class _imageloaderState extends State<imageloader> {
             print("(_buildItem(context, document))");
             // pushing image id though this and use it to generate image document
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ImageItem(image: document['ImageURL'] )));
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ImageItem(image: document['ImageURL'])));
           },
           child: CachedNetworkImage(
             placeholder: (context, url) =>
@@ -130,8 +155,17 @@ class _imageloaderState extends State<imageloader> {
                         ),
                       ),
                       onPressed: () {
-                        document.reference
-                            .updateData({'upvotes': document['upvotes'] + 1});
+                        if (widget.isloggedin) {
+                          document.reference
+                              .updateData({'upvotes': document['upvotes'] + 1});
+                        } else {
+                          //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginandsignup()),
+                          );
+                        }
                       }),
                   FlatButton.icon(
                       icon: Icon(
@@ -146,8 +180,17 @@ class _imageloaderState extends State<imageloader> {
                         ),
                       ),
                       onPressed: () {
-                        document.reference.updateData(
-                            {'downvotes': document['downvotes'] + 1});
+                        if (widget.isloggedin) {
+                          document.reference.updateData(
+                              {'downvotes': document['downvotes'] + 1});
+                        } else {
+                          //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginandsignup()),
+                          );
+                        }
                       }),
                   SizedBox(
                     width: 15,
@@ -157,7 +200,7 @@ class _imageloaderState extends State<imageloader> {
                   ),
                   GestureDetector(
                     onTap: () =>
-                        share(context, NetworkImage(document['ImageURL'])),
+                        print("Share button clicked on displayimages.dart"),
                     child: new Icon(
                       FontAwesomeIcons.share,
                     ),
@@ -235,10 +278,17 @@ class _imageloaderState extends State<imageloader> {
         actions: <Widget>[
           RaisedButton.icon(
               onPressed: () {
-                if (true) {
+                if (widget.isloggedin) {
+                  //TODO signup snack bar to prompt if they should sign up and it should be shared
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => userLoggedin()),
+                  );
+                } else {
+                  //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => loginandsignup()),
                   );
                 }
               },

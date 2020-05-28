@@ -1,32 +1,50 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zink/services/JokesAPI/notYetImplemented.dart';
 import 'package:zink/services/mainScreens/PostDisplay/displayimages.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:zink/services/imageuploading/imagepicker.dart';
+import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinusers.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 import 'SideBar.dart';
 
-
 class Homepages extends StatefulWidget {
-  final String userid;
-
-  const Homepages({Key key, this.userid}) : super(key: key);
-
   @override
   _HomepagesState createState() => _HomepagesState();
 }
 
 class _HomepagesState extends State<Homepages> {
-  String userid;
+  bool isloggedin = false;
   int _currentIndex = 0;
-
+  FirebaseUser user;
+  var userobject;
+  String userName;
+  String UserID;
+  Firestore _db = Firestore.instance;
   PageController _pageController;
+
+  Future<void> getCurrentUser() async {
+    FirebaseUser userdata = await FirebaseAuth.instance.currentUser();
+
+    if (((userdata.uid).length) > 5) {
+      setState(() {
+        print(userdata.uid);
+        UserID = userdata.uid;
+        isloggedin = true;
+      });
+    }
+  }
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
+    _db.settings(persistenceEnabled: true, cacheSizeBytes: 1048576);
     _pageController = PageController();
+
+    getCurrentUser();
   }
 
   @override
@@ -45,7 +63,7 @@ class _HomepagesState extends State<Homepages> {
             setState(() => _currentIndex = index);
           },
           children: <Widget>[
-            imageloader( ),
+            imageloader(isloggedin: isloggedin, UserId: UserID),
             ImageCaptures(),
             StatusWheelView(),
             loginandsignup(),
