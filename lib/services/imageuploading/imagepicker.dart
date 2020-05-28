@@ -91,11 +91,20 @@ class _ImageCapturesState extends State<ImageCaptures> {
                     print(widget.isloggedin);
                     pickImage(ImageSource.camera);
                   } else {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: IconButton(
+                      icon: Icon(Icons.local_florist),
+                      tooltip: "Loggin/ signup",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => loginandsignup()),
+                        );
+                      },
+                    )));
                     //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => loginandsignup()),
-                    );
+
                   }
                 }),
             IconButton(
