@@ -6,7 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ImageItem extends StatefulWidget {
   final String image;
-  ImageItem({Key key, this.image}) : super(key: key);
+  final String imagetag;
+
+  ImageItem({Key key, this.image, this.imagetag}) : super(key: key);
   @override
   _ImageItemState createState() => _ImageItemState();
 }
@@ -67,8 +69,9 @@ class _ImageItemState extends State<ImageItem> {
             floating: true,
             delegate: HeroHeader(
               minExtent: 250,
-              maxExtent: 450,
+              maxExtent: 850,
               image: widget.image,
+              imagetag: widget.imagetag,
             ),
           ),
           SliverFixedExtentList(
@@ -98,16 +101,18 @@ class _ImageItemState extends State<ImageItem> {
     );
   }
 }
-
+// TODO classic how classes work
 class HeroHeader implements SliverPersistentHeaderDelegate {
   HeroHeader({
     this.minExtent,
     this.maxExtent,
     this.image,
+    this.imagetag,
   });
   String image;
   double maxExtent;
   double minExtent;
+  String imagetag;
 
   @override
   Widget build(
@@ -151,7 +156,7 @@ class HeroHeader implements SliverPersistentHeaderDelegate {
           right: 16.0,
           bottom: 16.0,
           child: Text(
-            'Hero Image',
+            imagetag,
             style: TextStyle(fontSize: 32.0, color: Colors.white),
           ),
         ),

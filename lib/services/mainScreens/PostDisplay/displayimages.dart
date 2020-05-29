@@ -189,11 +189,11 @@ class _imageloaderState extends State<imageloader> {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        ImageItem(image: document['ImageURL'])));
+                        ImageItem(image: document['ImageURL'], imagetag:  "#memehashtag")));
           },
           child: CachedNetworkImage(
             fit: BoxFit.fitWidth,
-            height: 500,
+            height: 600,
             placeholder: (context, url) =>
                 Image.asset('assets/images/loading.gif'),
             placeholderFadeInDuration: Duration(milliseconds: 300),
