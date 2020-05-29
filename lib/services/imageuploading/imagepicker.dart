@@ -92,6 +92,10 @@ class _ImageCapturesState extends State<ImageCaptures> {
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: Colors.grey,
+                      elevation: 2.0,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
                       content: FlatButton.icon(
                         icon: Icon(Icons.person),
                         label: Text("Login/SignUp"),
@@ -120,6 +124,10 @@ class _ImageCapturesState extends State<ImageCaptures> {
                     pickImage(ImageSource.gallery);
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(
+                      elevation: 2.0,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30))),
                       backgroundColor: Colors.grey,
                       content: FlatButton.icon(
                         icon: Icon(Icons.person),

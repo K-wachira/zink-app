@@ -109,6 +109,10 @@ class _imageloaderState extends State<imageloader> {
                   .updateData({'upvotes': document['upvotes'] + 1});
             } else {
               Scaffold.of(context).showSnackBar(SnackBar(
+                elevation: 2.0,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30))),
                 backgroundColor: Colors.grey,
                 content: FlatButton.icon(
                   icon: Icon(Icons.person),
@@ -173,6 +177,10 @@ class _imageloaderState extends State<imageloader> {
                         } else {
                           //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
                           Scaffold.of(context).showSnackBar(SnackBar(
+                            elevation: 2.0,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(30))),
                             backgroundColor: Colors.grey,
                             content: FlatButton.icon(
                               icon: Icon(Icons.person),
@@ -208,6 +216,9 @@ class _imageloaderState extends State<imageloader> {
                         } else {
                           Scaffold.of(context).showSnackBar(SnackBar(
                             elevation: 2.0,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(30))),
                             backgroundColor: Colors.grey,
                             content: FlatButton.icon(
                               icon: Icon(Icons.person),
