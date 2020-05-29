@@ -42,6 +42,56 @@ class _imageloaderState extends State<imageloader> {
 
   var dbconn = Firestore.instance;
 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: Icon(Icons.home),
+        title: Text("Zink"),
+        actions: <Widget>[
+          RaisedButton.icon(
+              onPressed: () {
+                if (widget.isloggedin) {
+                  //TODO signup snack bar to prompt if they should sign up and it should be shared
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => userLoggedin()),
+                  );
+                } else {
+                  //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => loginandsignup()),
+                  );
+                }
+              },
+              icon: Icon(Icons.person),
+              label: Text('Profile')),
+          SizedBox(
+            width: 20,
+          )
+        ],
+        elevation: 1.0,
+      ),
+      body: StreamBuilder(
+          stream: dbconn.collection("Posts").snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return CircularProgressIndicator();
+            print("Snapshot data : ${snapshot.data.toString()}");
+
+            return ListView.builder(
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) =>
+                  _buildListItem(context, snapshot.data.documents[index]),
+            );
+          }),
+    );
+  }
+
+
+
+
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -142,6 +192,8 @@ class _imageloaderState extends State<imageloader> {
                         ImageItem(image: document['ImageURL'])));
           },
           child: CachedNetworkImage(
+            fit: BoxFit.fitWidth,
+            height: 500,
             placeholder: (context, url) =>
                 Image.asset('assets/images/loading.gif'),
             placeholderFadeInDuration: Duration(milliseconds: 300),
@@ -312,51 +364,6 @@ class _imageloaderState extends State<imageloader> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.home),
-        title: Text("Zink"),
-        actions: <Widget>[
-          RaisedButton.icon(
-              onPressed: () {
-                if (widget.isloggedin) {
-                  //TODO signup snack bar to prompt if they should sign up and it should be shared
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => userLoggedin()),
-                  );
-                } else {
-                  //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => loginandsignup()),
-                  );
-                }
-              },
-              icon: Icon(Icons.person),
-              label: Text('Profile')),
-          SizedBox(
-            width: 20,
-          )
-        ],
-        elevation: 1.0,
-      ),
-      body: StreamBuilder(
-          stream: dbconn.collection("Posts").snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return CircularProgressIndicator();
-            print("Snapshot data : ${snapshot.data.toString()}");
-
-            return ListView.builder(
-              itemCount: snapshot.data.documents.length,
-              itemBuilder: (context, index) =>
-                  _buildListItem(context, snapshot.data.documents[index]),
-            );
-          }),
-    );
-  }
 
 
 
