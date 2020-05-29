@@ -85,25 +85,26 @@ class _ImageCapturesState extends State<ImageCaptures> {
                 onPressed: () {
                   print("Double tap value :");
                   print(widget.isloggedin);
-                  print((widget.UserId).length);
                   print("value above this is the result:");
                   if (widget.isloggedin) {
                     print(widget.isloggedin);
                     pickImage(ImageSource.camera);
                   } else {
                     Scaffold.of(context).showSnackBar(SnackBar(
-                        content: IconButton(
-                      icon: Icon(Icons.local_florist),
-                      tooltip: "Loggin/ signup",
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => loginandsignup()),
-                        );
-                      },
-                    )));
-                    //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
+                      backgroundColor: Colors.grey,
+                      content: FlatButton.icon(
+                        icon: Icon(Icons.person),
+                        label: Text("Login/SignUp"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginandsignup()),
+                          );
+                        },
+                      ),
+                    ));
+                    //TODO beautify the snack bar
 
                   }
                 }),
@@ -113,17 +114,27 @@ class _ImageCapturesState extends State<ImageCaptures> {
                 onPressed: () {
                   print("Double tap value :");
                   print(widget.isloggedin);
-                  print((widget.UserId).length);
                   print("value above this is the result:");
                   if (widget.isloggedin) {
                     print(widget.isloggedin);
                     pickImage(ImageSource.gallery);
                   } else {
-                    //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => loginandsignup()),
-                    );
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      backgroundColor: Colors.grey,
+                      content: FlatButton.icon(
+                        icon: Icon(Icons.person),
+                        label: Text("Login/SignUp"),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginandsignup()),
+                          );
+                        },
+                      ),
+                    ));
+                    //TODO beautify the snack bar
+
                   }
                 })
           ],

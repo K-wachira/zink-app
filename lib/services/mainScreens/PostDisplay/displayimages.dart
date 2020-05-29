@@ -12,6 +12,8 @@ import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
 import 'package:zink/shared-widgets/MorePopUpMenu.dart';
 
+
+
 class imageloader extends StatefulWidget {
   final bool isloggedin;
   final String UserId;
@@ -106,11 +108,21 @@ class _imageloaderState extends State<imageloader> {
               document.reference
                   .updateData({'upvotes': document['upvotes'] + 1});
             } else {
-              //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => loginandsignup()),
-              );
+              Scaffold.of(context).showSnackBar(SnackBar(
+                backgroundColor: Colors.grey,
+                content: FlatButton.icon(
+                  icon: Icon(Icons.person),
+                  label: Text("Login/SignUp"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => loginandsignup()),
+                    );
+                  },
+                ),
+              ));
+              //TODO beautify the snack bar
             }
           },
 
@@ -160,11 +172,21 @@ class _imageloaderState extends State<imageloader> {
                               .updateData({'upvotes': document['upvotes'] + 1});
                         } else {
                           //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => loginandsignup()),
-                          );
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.grey,
+                            content: FlatButton.icon(
+                              icon: Icon(Icons.person),
+                              label: Text("Login/SignUp"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => loginandsignup()),
+                                );
+                              },
+                            ),
+                          ));
+                          //TODO beautify the snack bar
                         }
                       }),
                   FlatButton.icon(
@@ -184,12 +206,22 @@ class _imageloaderState extends State<imageloader> {
                           document.reference.updateData(
                               {'downvotes': document['downvotes'] + 1});
                         } else {
-                          //TODO implement a snack bar to show why they have to be logged in to <action perform> on click take them to loggin page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => loginandsignup()),
-                          );
+                          Scaffold.of(context).showSnackBar(SnackBar(
+                            elevation: 2.0,
+                            backgroundColor: Colors.grey,
+                            content: FlatButton.icon(
+                              icon: Icon(Icons.person),
+                              label: Text("Login/SignUp"),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => loginandsignup()),
+                                );
+                              },
+                            ),
+                          ));
+                          //TODO beautify the snack bar
                         }
                       }),
                   SizedBox(
@@ -314,4 +346,7 @@ class _imageloaderState extends State<imageloader> {
           }),
     );
   }
+
+
+
 }
