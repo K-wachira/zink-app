@@ -9,12 +9,14 @@ import 'package:zink/services/user-modules/signup-signin/businessLogic/loggedinu
 import 'package:zink/services/mainScreens/PostDisplay/PostDialog.dart';
 import 'package:zink/services/mainScreens/PostDisplay/ItemPost.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
-
 import 'package:zink/shared-widgets/MorePopUpMenu.dart';
 
 
+//This file  is responsible for displaying  images fetched from firestore using a stream builder
+
 
 class imageloader extends StatefulWidget {
+//  this are the parameters that we are getting from the home page to determine if user is logged in
   final bool isloggedin;
   final String UserId;
 
@@ -25,6 +27,14 @@ class imageloader extends StatefulWidget {
 }
 
 class _imageloaderState extends State<imageloader> {
+
+
+//  Gets an instance of firestore
+  var dbconn = Firestore.instance;
+
+
+
+//  checks if user is logged in and returns true if user is logged in and vice versa:::: not sure we are usin it tho
   Future<bool> LoggedIn() async {
     print("userid :");
     FirebaseUser userdata = await FirebaseAuth.instance.currentUser();
@@ -39,8 +49,6 @@ class _imageloaderState extends State<imageloader> {
       return false;
     }
   }
-
-  var dbconn = Firestore.instance;
 
 
   @override
@@ -91,7 +99,7 @@ class _imageloaderState extends State<imageloader> {
 
 
 
-
+//Widgets gives an instagram feel .....
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
