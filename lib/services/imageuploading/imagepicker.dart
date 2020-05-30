@@ -11,6 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:zink/services/mainScreens/Homepage.dart';
 import 'package:zink/services/user-modules/signup-signin/ui/loginSignup.dart';
 
+
+// this class enables users to access images on device and also access the camera to take pictures to upload
+
+
 class ImageCaptures extends StatefulWidget {
   final bool isloggedin;
   final String UserId;
@@ -43,6 +47,7 @@ class _ImageCapturesState extends State<ImageCaptures> {
     });
   }
 
+//  crop image and update image to the cropped
   Future<void> _cropImage() async {
     File croped = await ImageCropper.cropImage(
       sourcePath: _ImageFile.path,
@@ -165,6 +170,8 @@ class _ImageCapturesState extends State<ImageCaptures> {
   }
 }
 
+
+// this class is reposible for uploading an image when an image is selected
 class Uploader extends StatefulWidget {
   File file;
 
@@ -179,6 +186,11 @@ class _UploaderState extends State<Uploader> {
       FirebaseStorage(storageBucket: "gs://zink-project.appspot.com/");
 
   StorageUploadTask _uploadTask;
+
+
+
+//   This function uploads the image file to Firebase Storage and gets the URL and stores a reference of the
+//   post/image on the fire store with  keys of imageURL, down votes, up votes, and time uploaded
 
   void _startUpload() async {
     var filename = DateTime.now();
