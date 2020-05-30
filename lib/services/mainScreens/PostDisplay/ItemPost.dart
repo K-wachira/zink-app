@@ -4,6 +4,9 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
+// This class is shows the image in details when clicked on
+
 class ImageItem extends StatefulWidget {
   final String image;
   final String imagetag;
@@ -36,6 +39,8 @@ class _ImageItemState extends State<ImageItem> {
         });
   }
 
+  // this widget shows the comment section
+
   Column _buildBottomCommentSection() {
     return Column(
       children: <Widget>[
@@ -44,7 +49,7 @@ class _ImageItemState extends State<ImageItem> {
           autofocus: false,
           decoration: InputDecoration(
             icon: Icon(Icons.alternate_email),
-            hintText: 'Email',
+            hintText: 'Write your comment here',
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
@@ -102,6 +107,7 @@ class _ImageItemState extends State<ImageItem> {
   }
 }
 // TODO classic how classes work
+// deals with displaying the image on the sliver bar and expanding/shrinking it appropriately
 class HeroHeader implements SliverPersistentHeaderDelegate {
   HeroHeader({
     this.minExtent,
