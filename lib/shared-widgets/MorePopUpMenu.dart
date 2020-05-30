@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+
+// This class handels a more pop up menu
+
+
 class MorePopUpMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

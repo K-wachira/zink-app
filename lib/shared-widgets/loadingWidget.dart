@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
+// just a  common shared widget
 class loadingwidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
