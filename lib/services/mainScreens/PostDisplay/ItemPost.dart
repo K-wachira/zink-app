@@ -70,7 +70,7 @@ class _ImageItemState extends State<ImageItem> {
         builder: (context) {
           return Container(
             color: Color(0xFF737373),
-            height: 160,
+            height: 50,
             child: Container(
               child: _buildBottomCommentSection(),
               decoration: BoxDecoration(
@@ -93,11 +93,11 @@ class _ImageItemState extends State<ImageItem> {
           keyboardType: TextInputType.emailAddress,
           autofocus: false,
           decoration: InputDecoration(
-            icon: Icon(Icons.alternate_email),
+            icon: Icon(Icons.comment),
             hintText: 'Write your comment here',
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
           ),
         ),
       ],
