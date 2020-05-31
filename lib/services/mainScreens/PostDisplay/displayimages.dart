@@ -83,7 +83,7 @@ class _imageloaderState extends State<imageloader> {
         elevation: 1.0,
       ),
       body: StreamBuilder(
-          stream: dbconn.collection("Posts").snapshots(),
+          stream: dbconn.collection("Posts").orderBy('uploadedOn' ,descending :true).snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) return CircularProgressIndicator();
             print("Snapshot data : ${snapshot.data.toString()}");
