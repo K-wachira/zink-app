@@ -204,8 +204,8 @@ class _UploaderState extends State<Uploader> {
         await (await _uploadTask.onComplete).ref.getDownloadURL();
     Firestore.instance.collection('Posts').document().setData({
       'ImageURL': url,
-      'downvotes': 066,
-      'upvotes': 88,
+      'downvotes': 0,
+      'upvotes': 0,
       'uploadedOn': (DateTimeFormat.format(filename, format: 'H:i:s, d, Y'))
     });
   }

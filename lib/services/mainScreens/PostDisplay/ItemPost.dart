@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 
 // This class is shows the image in details when clicked on
 
@@ -17,7 +18,51 @@ class ImageItem extends StatefulWidget {
 }
 
 class _ImageItemState extends State<ImageItem> {
+  double imageheight;
+  var sizes;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Future<Size> _calculateImageDimension() {
+    Completer<Size> completer = Completer();
+    Image image = Image.network(widget.image);
+    image.image.resolve(ImageConfiguration()).addListener(
+      ImageStreamListener(
+        (ImageInfo image, bool synchronousCall) {
+          var myImage = image.image;
+          Size size = Size(myImage.width.toDouble(), myImage.height.toDouble());
+          completer.complete(size);
+        },
+      ),
+    );
+    return completer.future;
+  }
+
+  void getHeight() {
+    _calculateImageDimension().then((size) {
+      setState(() {
+        sizes = size;
+        print(size);
+        var abc = sizes.toString();
+        var newString = abc.substring(abc.length - 6, (abc.length-1));
+        imageheight = double.parse(newString);
+
+      });
+    });
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getHeight();
+    print(imageheight);
+    print("Imageheight");
+
+
+
+
+  }
 
   void _AddComment() {
     showModalBottomSheet(
@@ -74,7 +119,7 @@ class _ImageItemState extends State<ImageItem> {
             floating: true,
             delegate: HeroHeader(
               minExtent: 250,
-              maxExtent: 850,
+              maxExtent: 800,
               image: widget.image,
               imagetag: widget.imagetag,
             ),
@@ -106,6 +151,7 @@ class _ImageItemState extends State<ImageItem> {
     );
   }
 }
+
 // TODO classic how classes work
 // deals with displaying the image on the sliver bar and expanding/shrinking it appropriately
 class HeroHeader implements SliverPersistentHeaderDelegate {

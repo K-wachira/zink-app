@@ -74,7 +74,7 @@ class _HomepagesState extends State<Homepages> {
           children: <Widget>[
             imageloader(isloggedin: isloggedin, UserId: UserID),
             ImageCaptures(isloggedin: isloggedin, UserId: UserID),
-            StatusWheelView(),
+            notYetImplimented(),
             loginandsignup(),
           ],
         ),
