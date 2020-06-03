@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:zink/shared-widgets/loadingWidget.dart';
 
 // This class is shows the image in details when clicked on
 
@@ -20,11 +22,15 @@ class ImageItem extends StatefulWidget {
 class _ImageItemState extends State<ImageItem> {
   double imageheight;
   var sizes;
+  bool loading = true;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Future<Size> _calculateImageDimension() {
+//  Gets an instance of firestore
+  var dbconn = Firestore.instance;
+
+  Future<Size> _calculateImageDimension() async {
     Completer<Size> completer = Completer();
-    Image image = Image.network(widget.image);
+    Image image = await Image.network(widget.image);
     image.image.resolve(ImageConfiguration()).addListener(
       ImageStreamListener(
         (ImageInfo image, bool synchronousCall) {
@@ -37,31 +43,25 @@ class _ImageItemState extends State<ImageItem> {
     return completer.future;
   }
 
-  void getHeight() {
-    _calculateImageDimension().then((size) {
+  void getHeight() async {
+    await _calculateImageDimension().then((size) {
       setState(() {
         sizes = size;
         print(size);
         var abc = sizes.toString();
-        var newString = abc.substring(abc.length - 6, (abc.length-1));
+        var newString = abc.substring(abc.length - 6, (abc.length - 1));
         imageheight = double.parse(newString);
-
+        loading = false;
       });
     });
-
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getHeight();
     print(imageheight);
     print("Imageheight");
-
-
-
-
   }
 
   void _AddComment() {
@@ -86,11 +86,11 @@ class _ImageItemState extends State<ImageItem> {
 
   // this widget shows the comment section
 
-  Column _buildBottomCommentSection() {
-    return Column(
+  Row _buildBottomCommentSection() {
+    return Row(
       children: <Widget>[
         TextFormField(
-          keyboardType: TextInputType.emailAddress,
+          keyboardType: TextInputType.text,
           autofocus: false,
           decoration: InputDecoration(
             icon: Icon(Icons.comment),
@@ -100,6 +100,11 @@ class _ImageItemState extends State<ImageItem> {
                 OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
           ),
         ),
+        GestureDetector(
+          child: Icon(
+            Icons.send,
+          ),
+        )
       ],
     );
   }
@@ -125,7 +130,7 @@ class _ImageItemState extends State<ImageItem> {
             ),
           ),
           SliverFixedExtentList(
-            itemExtent: 150.0,
+            itemExtent: 100.0,
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 // TODO have a stream builder for comments
@@ -148,6 +153,32 @@ class _ImageItemState extends State<ImageItem> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildComments(BuildContext context) {
+    return StreamBuilder(
+        stream: dbconn
+            .collection("Posts")
+            .orderBy('uploadedOn', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return CircularProgressIndicator();
+          print("Snapshot data : ${snapshot.data.toString()}");
+
+          return ListView.builder(
+            itemCount: snapshot.data.documents.length,
+            itemBuilder: (context, index) =>
+                _BuildCommentsTemplate(context, snapshot.data.documents[index]),
+          );
+        });
+  }
+
+  Widget _BuildCommentsTemplate(
+      BuildContext context, DocumentSnapshot document) {
+    return ListTile(
+      leading: Text(document['downvotes']),
+      subtitle: Text(document['upvotes']),
     );
   }
 }
