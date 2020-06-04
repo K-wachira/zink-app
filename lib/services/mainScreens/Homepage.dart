@@ -75,7 +75,7 @@ class _HomepagesState extends State<Homepages> {
             imageloader(isloggedin: isloggedin, UserId: UserID),
             ImageCaptures(isloggedin: isloggedin, UserId: UserID),
             notYetImplimented(), // Not yer implemented feature
-            loginandsignup(),
+            notYetImplimented(),
           ],
         ),
       ),
