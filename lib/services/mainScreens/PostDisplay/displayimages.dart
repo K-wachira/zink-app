@@ -63,6 +63,7 @@ class _imageloaderState extends State<imageloader> {
                 if (widget.isloggedin) {
                   //TODO signup snack bar to prompt if they should sign up and it should be shared
                   Navigator.push(
+
                     context,
                     MaterialPageRoute(builder: (context) => userLoggedin()),
                   );
